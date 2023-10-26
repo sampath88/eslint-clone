@@ -1,3 +1,12 @@
+#!/usr/bin/env node
+
+// It tells the system to use the Node.js interpreter to run the script
+/**
+ * When you execute this script from the command line, the system will look for the node
+ * executable in the system's PATH and use it to execute the JavaScript code in your 
+ * script
+ */
+
 import { parseArgs } from "node:util";
 import chalk from "chalk";
 import fs from "node:fs";
