@@ -9,7 +9,8 @@
 - The below code snippet from `package.json` \
   is defining a command-line executable named "eslint-clone". 
 
-  ![command-line executable named "eslint-clone"](/snippet1.svg)
+  <!-- ![command-line executable named "eslint-clone"](/snippet1.svg) -->
+  <img src="./snippet1.svg" alt="command-line executable named 'eslint-clone'" style="width: 400px;">
 
 - When you run the "eslint-clone" command from the command line, \
   it will execute the JavaScript code in the "src/index.js" file.
