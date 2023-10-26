@@ -1,6 +1,7 @@
 import { parseArgs } from "node:util";
 import chalk from "chalk";
-
+import fs from "node:fs";
+import * as espree from "espree";
 
 function getFilePathFromCLI() {
   try {
@@ -27,4 +28,11 @@ function getFilePathFromCLI() {
 }
 
 const filePath = getFilePathFromCLI();
-console.log(filePath);
+console.log(chalk.blue(`[File] ${filePath}`));
+const code = fs.readFileSync(filePath, "utf-8");
+const ast = espree.parse(code, {
+  ecmaVersion: 2020,
+  loc: true,
+  sourceType: "module",
+});
+fs.writeFileSync("ast.json", JSON.stringify(ast, null, 2));
