@@ -1,0 +1,20 @@
+{
+  "name": "eslint-clone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "sampath",
+  "license": "ISC",
+  "type": "module",
+  "engines": {
+    "node": "v18.11.0"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "espree": "^9.6.1"
+  }
+}
