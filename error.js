@@ -1,5 +1,5 @@
 let text = "abc123" + "cde9982";
-var neverReassigned = {};
+var neverReassigned = {}
 neverReassigned.name = "sampath";
 
 var tobeReassigned = {};
