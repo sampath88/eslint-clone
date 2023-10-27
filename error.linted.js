@@ -1,16 +1,16 @@
-let text = "abc123" + "cde9982";
-var neverReassigned = {};
-neverReassigned.name = "sampath";
-var tobeReassigned = {};
+let text = 'abc123' + 'cde9982';
+const neverReassigned = {};
+neverReassigned.name = 'sampath';
+const tobeReassigned = {};
 tobeReassigned = {
-  name: "ana"
+  name: 'ana'
 };
 tobeReassigned.name = 1;
 tobeReassigned = 0;
 tobeReassigned = {
-  name: "ana"
+  name: 'ana'
 };
-let result = text.split(",").map(letter => {
+let result = text.split(',').map(letter => {
   return letter.toUpperCase();
-}).join(".");
+}).join('.');
 console.log(result);

@@ -13,6 +13,7 @@ import fs from "node:fs";
 import path from "node:path";
 import * as espree from "espree";
 import Reporter from "./reporter.js";
+import SyntaxTreeProcessor from "./syntaxTreeProcessor.js";
 
 function getFilePathFromCLI() {
   try {
@@ -53,8 +54,10 @@ const ast = espree.parse(code, {
 });
 // fs.writeFileSync("ast.json", JSON.stringify(ast, null, 2));
 
+const syntaxTreeProcessor = new SyntaxTreeProcessor(filePath);
+const errors = syntaxTreeProcessor.process(ast);
 Reporter.report({
-  errors: [{ message: "Missing semicolon", errorLocation: filePath + ":1:3" }],
+  errors,
   ast,
   outputFilePath,
 });

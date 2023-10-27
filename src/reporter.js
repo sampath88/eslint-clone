@@ -7,13 +7,20 @@ export default class Reporter {
   static space = "\x20";
   static errCode = "ERR!";
   static report({ errors, ast, outputFilePath }) {
-    errors.forEach(({ message, errorLocation }) => {
-      const errorMessage = `${chalk.red("ERR!")} ${message}`;
-      const finalMessage = `${errorMessage}\n${this.space.repeat(
-        this.errCode.length + 1
-      )}at ${chalk.gray(errorLocation)}`;
-      console.error(finalMessage);
-    });
+    errors
+      .sort((error1, error2) => {
+        const [aLine, aColumn] = error1.errorLocation.split(":").slice(1);
+        const [bLine, bColumn] = error2.errorLocation.split(":").slice(1);
+        if (aLine !== bLine) return aLine - bLine;
+        return aColumn - bColumn;
+      })
+      .forEach(({ message, errorLocation }) => {
+        const errorMessage = `${chalk.red("ERR!")} ${message}`;
+        const finalMessage = `${errorMessage}\n${this.space.repeat(
+          this.errCode.length + 1
+        )}at ${chalk.gray(errorLocation)}`;
+        console.error(finalMessage);
+      });
 
     const updatedCode = astring.generate(ast);
     fs.writeFileSync(outputFilePath, updatedCode, "utf-8");
