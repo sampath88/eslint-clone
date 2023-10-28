@@ -73,6 +73,55 @@ export default class SyntaxTreeProcessor {
       });
       return;
     }
+
+    // means keeping the variable as it is if it has 'let'
+    if (
+      [nodeDeclaration.kind, originalKind].includes(this.#variableKinds.let)
+    ) {
+      this.#variables.set(varName, {
+        ...variable,
+        stage: this.#stages.expressionDeclaration,
+        nodeDeclaration,
+      });
+      return;
+    }
+
+    // means reassining the variable and using var/const
+    this.#storeError(
+      this.#messages.useLet(originalKind),
+      nodeDeclaration.loc.start
+    );
+    nodeDeclaration.kind = this.#variableKinds.let;
+    this.#variables.set(varName, {
+      ...variable,
+      stage: this.#stages.expressionDeclaration,
+      nodeDeclaration,
+    });
+    return;
+  }
+
+  #checkDeclarationsThatNeverChanged() {
+    const variables = [...this.#variables.entries()];
+    variables
+      .filter(
+        ([_, { originalKind, stage }]) =>
+          stage === this.#stages.declaration &&
+          originalKind !== this.#variableKinds.const
+      )
+      .forEach(([varName, variable]) => {
+        const { originalKind, nodeDeclaration } = variable;
+        if (originalKind === this.#variableKinds.const) return;
+        this.#storeError(
+          this.#messages.useConst(originalKind),
+          nodeDeclaration.loc.start
+        );
+        nodeDeclaration.kind = this.#variableKinds.const;
+        this.#variables.set(varName, {
+          ...variable,
+          stage: this.#stages.expressionDeclaration,
+          nodeDeclaration,
+        });
+      });
   }
 
   #traverse(nodeDeclaration) {
@@ -96,6 +145,7 @@ export default class SyntaxTreeProcessor {
 
   process(ast) {
     this.#traverse(ast);
+    this.#checkDeclarationsThatNeverChanged();
     return [...this.#errors.values()];
   }
 }

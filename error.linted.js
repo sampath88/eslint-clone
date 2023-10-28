@@ -1,7 +1,8 @@
 let text = 'abc123' + 'cde9982';
+let age = 20;
 const neverReassigned = {};
 neverReassigned.name = 'sampath';
-const tobeReassigned = {};
+let tobeReassigned = {};
 tobeReassigned = {
   name: 'ana'
 };
@@ -10,7 +11,9 @@ tobeReassigned = 0;
 tobeReassigned = {
   name: 'ana'
 };
-let result = text.split(',').map(letter => {
+age = 30;
+text = 'sampath';
+const result = text.split(',').map(letter => {
   return letter.toUpperCase();
 }).join('.');
 console.log(result);
